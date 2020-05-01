@@ -2,20 +2,44 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _State createState() => _State();
+}
+
+class _State extends State<MyApp> {
+  final items = [
+    "Pasta",
+    "Kräuter",
+    "Zwiebeln",
+    "Essig",
+    "Spices",
+  ];
+
+  TextEditingController _itemController = TextEditingController();
+
+  _addItem() {
+    setState(() {
+      items.add(_itemController.text);
+      _itemController.text = "";
+      FocusScope.of(context).unfocus();
+    });
+  }
+
+  @override
+  void dispose() {
+    _itemController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<String> items = [
-      "Pasta",
-      "Kräuter",
-      "Zwiebeln",
-      "Essig",
-      "Spices",
-    ];
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
+          leading: Icon(Icons.shopping_cart),
           title: Text("Einkaufsliste"),
+          centerTitle: true,
         ),
         body: Column(
           children: <Widget>[
@@ -26,23 +50,43 @@ class MyApp extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return ListTile(
                     title: Text('${items[index]}'),
-                    trailing: Icon(Icons.check),
+                    trailing: IconButton(
+                      icon: Icon(Icons.check),
+                      onPressed: () {
+                        setState(() {
+                          items.removeAt(index);
+                        });
+                      },
+                    ),
                   );
                 },
                 separatorBuilder: (context, index) =>
                     Divider(height: 8.0, color: Colors.blueGrey),
               ),
             ),
-            TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Hinzufügen...',
+            Container(
+              margin: EdgeInsets.all(16.0),
+              child: Row(
+                children: <Widget>[
+                  Flexible(
+                    child: TextField(
+                      controller: _itemController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: "Hinzufügen...",
+                        suffixIcon: IconButton(
+                          icon: Icon(Icons.add),
+                          onPressed: _addItem,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              autofocus: false,
             ),
           ],
         ),
       ),
     );
-  }
-}
+  } // build()
+} // MyApp
