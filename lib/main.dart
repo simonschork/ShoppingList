@@ -8,13 +8,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _State extends State<MyApp> {
-  final items = [
-    "Pasta",
-    "Kräuter",
-    "Zwiebeln",
-    "Essig",
-    "Spices",
-  ];
+  final items = [];
 
   TextEditingController _itemController = TextEditingController();
 
