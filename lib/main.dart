@@ -31,7 +31,8 @@ class _State extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          leading: Icon(Icons.shopping_cart),
+          leading: Container(),
+          // leading: Icon(Icons.shopping_cart),
           title: Text("Einkaufsliste"),
           centerTitle: true,
         ),
